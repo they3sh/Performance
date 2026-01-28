@@ -8,12 +8,12 @@
     },
 
     "ServerScriptService": {
-      "$path": "src/ServerScriptService"
+      "$path": "src/server/ServerScriptService"
 
     },
 
     "ServerStorage": {
-      "$path": "src/ServerStorage"
+      "$path": "src/server/ServerStorage"
     },
 
     "StarterPlayer": {
