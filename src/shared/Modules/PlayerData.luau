@@ -1,9 +1,15 @@
 --!strict
 
+-- Types
+export type ProfileData = {
+    
+}
 
 -- Services
+local ReplicatedStorage = game:GetService("ReplicatedStorage");
 
 -- Dependencies
+local ProfileStore = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Libs"):FindFirstChild("ProfileStore"));
 
 -- Constants
 local DATA_NAME = "";
