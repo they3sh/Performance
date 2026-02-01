@@ -61,6 +61,17 @@ function CombatComponent:_cooldown()
     return;
 end
 
+function CombatComponent:_hitVisual(model: Model, color: Color3, t: number): ()
+    local highlight = Instance.new("Highlight");
+    highlight.FillColor = color;
+    highlight.FillTransparency = 0.6
+    highlight.Parent = model;
+
+    task.delay(t, function()
+        highlight:Destroy();
+    end)
+end
+
 function CombatComponent:onAttack()
     if self.cooldownState == true or self.ragdolState == true then return end
     self:_cooldown();
@@ -84,9 +95,11 @@ function CombatComponent:onAttack()
         local blockState = class.blockState;
         if blockState then
             damage = weaponConfig.damage * 0.2;
+            CombatComponent:_hitVisual(v, Color3.fromRGB(27, 27, 27), 0.2);
         else
             damage = weaponConfig.damage;
             class:ragdol();
+            CombatComponent:_hitVisual(v, Color3.fromRGB(200, 0, 0), 0.4);
         end
 
         local humanoid = v:FindFirstChild("Humanoid") :: Humanoid;
@@ -130,7 +143,7 @@ function CombatComponent:ragdol()
     ownerHumanoid.WalkSpeed = 0;
     ownerHumanoid.JumpPower = 0;
 
-    task.delay(0.2, function()
+    task.delay(0.5, function()
         self.ragdolState = false;
         ownerHumanoid.WalkSpeed = walkSpeed;
         ownerHumanoid.JumpPower = jumpPower;

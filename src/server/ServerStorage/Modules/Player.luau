@@ -18,8 +18,8 @@ local CombatComponent = require(ServerStorage:FindFirstChild("Modules"):FindFirs
 
 -- Constansts
 
-local AttackEvent = Remote.New("AttackEvent");
-local BlockEvent = Remote.New("BlockEvent");
+local AttackEvent = Remote.New("CombatAttack");
+local BlockEvent = Remote.New("CombatBlock");
 
 -- Private variables
 local Structs: {[Player]: any} = {}; -- structs cache
