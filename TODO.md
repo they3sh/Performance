@@ -1,12 +1,5 @@
 ### mechanics:
-- Combat System - Sword, Punch <- NOW
-^ weapon at hands, animation, maybe VFX
-
-
-- Soccer - ball <- NEXT
-
-
-
+- Soccer - ball
 
 - Combat System - dbd 3 hits
 
@@ -15,3 +8,9 @@
 - Placement
 
 - Dash
+
+
+
+
+- magik from marvel rivals
+^ all abilitys, and attacks
