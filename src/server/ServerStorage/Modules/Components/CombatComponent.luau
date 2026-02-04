@@ -21,7 +21,7 @@ function CombatComponent.new(owner: Player | Model, hero: string)
     local self = setmetatable({}, CombatComponent);
 
     self.owner = owner;
-    self._heroName = hero;
+    self.heroName = hero;
 
     self.lastAttack = 0;
     self.attackCount = 1;
@@ -86,7 +86,7 @@ function CombatComponent:attack(): ()
     return;
 end
 
-function CombatComponent:ability(): ()
+function CombatComponent:ability(a: number): ()
 
 end
 

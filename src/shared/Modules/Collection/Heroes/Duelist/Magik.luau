@@ -13,13 +13,18 @@ local MousePosition = Remote.New("MousePosition");
 
 local Attacks = {
     [1] = function()
+        local hitbox = CreateHitbox(CFrame.new(Vector3.zero, Vector3.zero), Vector3.one)
 
+        local partInHitbox = workspace:GetPartsInPart(hitbox);
+        return;
     end,
     [2] = function()
 
+        return;
     end,
     [3] = function()
 
+        return;
     end,
 }
 
@@ -27,11 +32,27 @@ local Attacks = {
 local Magik = {};
 
 function Magik.attack(character: Model, attackCount: number)
-    -- local enemy
-    -- local distance
-    -- local headshot
-    
+    local ownerHRP = character:FindFirstChild("HumanoidRootPart") :: BasePart;
 
+    local attackNum = if attackCount > #Attacks then 1 else attackCount;
+    local attackResult = Attacks[attackNum]();
+
+    local hits = {}
+    for _, v in attackResult do
+        local enemyCharacter = v.Parent;
+        local enemyHumanoid = enemyCharacter:FindFirstChild("Humanoid") :: Humanoid;
+        local enemyHRP = enemyCharacter:FindFirstChild("HumanoidRootPart") :: BasePart;
+        if enemyHumanoid and hits[enemyCharacter] == nil then
+
+            hits[enemyCharacter] = {
+                character = enemyCharacter,
+                distance = (ownerHRP.CFrame.Position - enemyHRP.CFrame.Position).Magnitude,
+                headshot = if v.Name == "Head" then true else false,
+            }
+        end
+    end
+
+    return hits;
 end
 
 function Magik.firstAbility()
