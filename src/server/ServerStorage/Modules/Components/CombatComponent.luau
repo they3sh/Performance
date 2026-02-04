@@ -19,11 +19,12 @@ function CombatComponent.new(owner: Player | Model, hero: string)
     -- ** owner - player or character model for npc-bots
 
     local self = setmetatable({}, CombatComponent);
-    -- mark for find this object
-
 
     self.owner = owner;
     self._heroName = hero;
+
+    self.lastAttack = 0;
+    self.attackCount = 1;
 
     -- states:
     self._ragdolState = false;
@@ -38,6 +39,10 @@ function CombatComponent.new(owner: Player | Model, hero: string)
     return self;
 end
 
+function CombatComponent.Get(owner: Player | Model)
+    return Classes[owner];
+end
+
 function CombatComponent._ragdol(): ()
 
     -- got humanoid??? and set ragdol
@@ -47,13 +52,6 @@ end
 
 function CombatComponent:attack(): ()
     if self._attackCooldown == true then return end
-    self:_cooldown("_attackCooldown", 2); -- <- Change take from config
-
-    -- todo: start animation
-
-    local character = if self.owner:IsA("Player") then
-        self.owner.Character or self.owner.CharacterAdded:Wait() 
-    else self.owner;
 
     local heroConfig = Heroes[self.heroName];
     local hero = require(Collection
@@ -61,7 +59,28 @@ function CombatComponent:attack(): ()
         :FindFirstChild(heroConfig.heroClass)
         :FindFirstChild(heroConfig.heroName)) :: Heroes.Hero;
 
-    hero.attack();
+    self:_cooldown("_attackCooldown", heroConfig.attackCooldown);
+
+    local t = workspace:GetServerTimeNow();
+
+    -- attack count
+    if t - self.lastAttack < 3 then
+        if self.attackCount >= 3 then
+            self.attackCount = 1;
+        else
+            self.attackCount += 1;
+        end
+    end
+    self.lastAttack = t;
+
+    local character = if self.owner:IsA("Player") then
+        self.owner.Character or self.owner.CharacterAdded:Wait()
+    else self.owner;
+
+    local attackResult = hero.attack(character, self.attackCount);
+
+
+
 
     -- maybe DAMAGE REGISTER here???
     return;

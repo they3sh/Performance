@@ -1,10 +1,17 @@
 --!strict
 
 -- Types
+type AttackData = {
+    enemy: Model,
+    distance: number,
+    headshot: boolean,
+}
 export type Hero = {
-    attack: () -> (),
+    attack: (Model, number) -> {AttackData},
+    firstAbility: () -> (),
+    secondAbility: () -> (),
+    thirdAbility: () -> (),
     ultimate: () -> (),
-
 }
 
 export type HeroConfig = {

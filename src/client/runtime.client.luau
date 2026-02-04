@@ -4,19 +4,13 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 
+local Remote = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Libs"):FindFirstChild("Remote"));
+
+-- Constants
+local MousePosition = Remote.New("MousePosition");
+
 -- Setup:
-local Replica = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Libs"):FindFirstChild("Replica"):FindFirstChild("ReplicaClient"));
-local token = `user_{Players.LocalPlayer.UserId}`
-Replica.RequestData();
-Replica.OnNew(token, function(replica)
-    print(replica.Data);
-
-    replica:OnChange(function(action, path, oldValue, newValue)
-
-        print(newValue);
-
-    end)
-end);
-
 local InputController = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Controllers"):FindFirstChild("InputController"));
 InputController.new();
+
+local MouseController = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Controllers"):FindFirstChild("MouseController"));
