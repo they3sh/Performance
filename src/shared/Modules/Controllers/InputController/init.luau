@@ -24,7 +24,7 @@ end
 function InputController:bindInputs()
     local function bind(typeInput: string)
         for i, v in Inputs[typeInput] do
-        ContextActionService:BindAction(i, v.fn, false, Enum[typeInput][i])
+            ContextActionService:BindAction(i, v.fn, false, Enum[typeInput][i])
         end
     end
 

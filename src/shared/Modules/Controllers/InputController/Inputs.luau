@@ -14,17 +14,17 @@ return {
     KeyCode = {
         ["Q"] = {
             fn = function(actionName: string, inputState: Enum.UserInputState, inputObject)
-                AbilityEvent:FindFirstChild("ability1");
+                AbilityEvent:FireServer("ability1");
             end
         },
         ["E"] = {
             fn = function(actionName: string, inputState: Enum.UserInputState, inputObject)
-                AbilityEvent:FindFirstChild("ability3");
+                AbilityEvent:FireServer("ability3");
             end
         },
         ["LeftShift"] = {
             fn = function(actionName: string, inputState: Enum.UserInputState, inputObject)
-                AbilityEvent:FindFirstChild("ability2");
+                AbilityEvent:FireServer("ability2");
             end,
         }
     },
