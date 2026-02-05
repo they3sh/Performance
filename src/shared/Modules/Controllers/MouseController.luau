@@ -5,9 +5,6 @@ local Players = game:GetService("Players");
 local UserInputService = game:GetService("UserInputService");
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 
--- Dependencies
-local Remote = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Libs"):FindFirstChild("Remote"));
-
 -- Constants
 local LOCAL_PLAYER = Players.LocalPlayer;
 local PLAYER_CAMERA = workspace.CurrentCamera;
@@ -16,7 +13,7 @@ local PLAYER_CAMERA = workspace.CurrentCamera;
 -- Setup:
 local MouseController = {};
 
-function MouseController._raycast(): RaycastResult
+function MouseController._raycast(): RaycastResult | nil
     local location = MouseController.getMouseLocation();
     local cameraRay = PLAYER_CAMERA:ViewportPointToRay(location.X, location.Y);
 
