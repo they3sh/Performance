@@ -12,13 +12,9 @@ local Player = require(ServerStorage:FindFirstChild("Modules"):FindFirstChild("P
 
 local CombatComponent = require(ServerStorage:FindFirstChild("Modules"):FindFirstChild("Components"):FindFirstChild("CombatComponent"));
 
-local BlockTarget = workspace:FindFirstChild("BlockTarget");
-local BlockTargetClass = CombatComponent.new(BlockTarget, "BasicSword");
-BlockTargetClass:onBlock();
-
 local AttackTarget = workspace:FindFirstChild("AttackTarget");
-local AttackTargetClass = CombatComponent.new(AttackTarget, "BasicSword");
+local AttackTargetClass = CombatComponent.new(AttackTarget, "Magik");
 while true do
-    AttackTargetClass:onAttack();
+    AttackTargetClass:attack();
     task.wait(1);
 end

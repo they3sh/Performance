@@ -1,10 +1,12 @@
 --!strict
 
 -- Services
+local ServerStorage = game:GetService("ServerStorage");
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 
 -- Dependencies
-local HeroesConfig = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Collection"):FindFirstChild("Heroes"))
+local HeroesConfig = require(ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Collection"):FindFirstChild("Heroes"));
+local DamageRegister = require(ServerStorage:FindFirstChild("Modules"):FindFirstChild("Utility"):FindFirstChild("DamageRegister"));
 
 -- Constants
 local Collection = ReplicatedStorage:FindFirstChild("Modules"):FindFirstChild("Collection") :: Folder;
@@ -16,6 +18,9 @@ local HeroesModules= {
         Magik = require(Duelist:FindFirstChild("Magik")) :: HeroesConfig.Hero,
     },
     Tank = {
+
+    },
+    Support = {
 
     },
 }
@@ -60,7 +65,6 @@ function CombatComponent._setRagdol(): ()
 
     -- got humanoid??? and set ragdol
 
-
 end
 
 function CombatComponent:attack(): ()
@@ -69,30 +73,42 @@ function CombatComponent:attack(): ()
     local heroConfig = HeroesConfig[self.heroId];
     local hero = HeroesModules[heroConfig.heroClass][heroConfig.heroName];
 
-    self:_setCooldown("attack", heroConfig.attackCooldown);
+    local character = if self.owner:IsA("Player") then
+        self.owner.Character or self.owner.CharacterAdded:Wait()
+    else self.owner;
 
     local t = workspace:GetServerTimeNow();
 
-    -- attack count
+    self:_setCooldown("attack", heroConfig.attackCooldown);
+
+    -- combo attacks
     if t - self.lastAttackTime < 3 then
         if self.comboIndex >= 3 then
             self.comboIndex = 1;
         else
             self.comboIndex += 1;
         end
+    else
+        self.comboIndex = 1;
     end
+
     self.lastAttackTime = t;
 
-    local character = if self.owner:IsA("Player") then
-        self.owner.Character or self.owner.CharacterAdded:Wait()
-    else self.owner;
+    local attackResult: {HeroesConfig.AttackData} = hero.attack(character, self.comboIndex);
+    if attackResult == nil then return end
+    
+    -- damage registry
+    for i, v in attackResult do
+        DamageRegister(
+            self.owner,
+            v.character,
+            v.distance,
+            v.headshot,
+            heroConfig.attackHeadshotMulti,
+            heroConfig.attackDamage
+        )
+    end
 
-    local attackResult = hero.attack(character, self.comboIndex);
-
-
-
-
-    -- maybe DAMAGE REGISTER here???
     return;
 end
 

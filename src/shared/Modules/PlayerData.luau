@@ -58,7 +58,7 @@ end
 -- Setup:
 local PlayerData = {};
 
-function PlayerData.New(player: Player)
+function PlayerData.new(player: Player)
     startSessionForPlayer(player)
 
 end
