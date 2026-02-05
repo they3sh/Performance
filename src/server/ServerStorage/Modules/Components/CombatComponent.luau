@@ -96,9 +96,11 @@ function CombatComponent:attack(): ()
 
     local attackResult: {HeroesConfig.AttackData} = hero.attack(character, self.comboIndex);
     if attackResult == nil then return end
-    
-    -- damage registry
+
+    -- hit
     for i, v in attackResult do
+
+        -- i think i will rework this
         DamageRegister(
             self.owner,
             v.character,
@@ -107,19 +109,35 @@ function CombatComponent:attack(): ()
             heroConfig.attackHeadshotMulti,
             heroConfig.attackDamage
         )
+
+        -- visual hit
+        CombatComponent:_setVisualHit(v.character);
     end
 
     return;
 end
 
-function CombatComponent:ability(a: number): ()
+function CombatComponent:ability(abilityKey: string): ()
+    print(abilityKey);
 
+
+    return;
 end
 
 function CombatComponent:_setCooldown(action: string, duration: number): ()
     self.cooldowns[action] = true;
     task.delay(duration, function()
         self.cooldowns[action] = false;
+    end)
+    return;
+end
+
+function CombatComponent:_setVisualHit(character: Model)
+    local highlight = Instance.new("Highlight");
+    highlight.Parent = character;
+
+    task.delay(.4, function()
+        highlight:Destroy();
     end)
     return;
 end

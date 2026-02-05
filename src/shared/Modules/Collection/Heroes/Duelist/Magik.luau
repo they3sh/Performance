@@ -14,7 +14,7 @@ local CreateHitbox = require(ReplicatedStorage:FindFirstChild("Modules"):FindFir
 local Attacks = {
     [1] = function(cf: CFrame)
         local startCf = cf * CFrame.new(0, 0, -7.7);
-        local AnglesCf = CFrame.Angles(math.rad(-1.684), math.rad(-1.257), math.rad(-51.783));
+        local AnglesCf = CFrame.Angles(0, 0, math.rad(-51));
         local finishCf = startCf * AnglesCf;
 
         local hitbox = CreateHitbox(finishCf, Vector3.new(1, 13, 15));
@@ -28,25 +28,11 @@ local Attacks = {
         return workspace:GetPartsInPart(hitbox);
     end,
     [2] = function(cf: CFrame)
-        local startCf = CFrame.new((cf.LookVector * 3) + cf.Position, Vector3.new(0, 0, -45));
+        local startCf = cf * CFrame.new(0, 0, -7.7);
+        local AnglesCf = CFrame.Angles(0, 0, math.rad(51));
         local finishCf = startCf * AnglesCf;
 
-        local hitbox = CreateHitbox(finishCf, Vector3.new(1, 11, 15));
-
-        -- Animation
-
-        task.delay(1.5, function()
-            hitbox:Destroy();
-        end);
-
-        return workspace:GetPartsInPart(hitbox);
-    end,
-    [3] = function(cf: CFrame)
-        local startCf = CFrame.new((cf.LookVector * 3) + cf.Position, Vector3.new(0, 0, -45));
-        local AnglesCf = CFrame.Angles(0, 0, math.rad(-45));
-        local finishCf = startCf * AnglesCf;
-
-        local hitbox = CreateHitbox(finishCf, Vector3.new(1, 11, 15));
+        local hitbox = CreateHitbox(finishCf, Vector3.new(1, 13, 15));
 
         -- Animation
 

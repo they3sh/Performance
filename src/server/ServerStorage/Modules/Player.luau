@@ -44,6 +44,13 @@ function PlayerStruct.new(player: Player)
 
                 local character = player.Character or player.CharacterAdded:Wait();
                 local hum = character:FindFirstChild("Humanoid") :: Humanoid;
+
+                local helthScript = character:FindFirstChild("Health")
+                helthScript:Destroy()
+
+                hum.MaxHealth = 250;
+                hum.Health = 250;
+
                 bindConnection(hum)
             end)
         end
@@ -56,6 +63,17 @@ function PlayerStruct.new(player: Player)
         task.wait(.2)
         humanoid.Health = 0;
     end
+
+    -- debug:
+    task.spawn(function()
+        while true do
+            local character = player.Character or player.CharacterAdded:Wait();
+            local hum = character:FindFirstChild("Humanoid") :: Humanoid;
+
+            print(hum.Health); -- show player helath
+            task.wait(.2);
+        end
+    end)
 
     Structs[player] = self;
     return self;
@@ -75,6 +93,12 @@ Players.PlayerRemoving:Connect(function(player) PlayerStruct.remove(player); end
 
 AttackEvent.OnServerEvent:Connect(function(player)
     PlayerStruct.Get(player).combat:attack();
+    return;
+end)
+
+AbilityEvent.OnServerEvent:Connect(function(player, abilityKey)
+    PlayerStruct.Get(player).combat:ability(abilityKey);
+    return;
 end)
 
 return PlayerStruct;
